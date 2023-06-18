@@ -1,6 +1,7 @@
 package net.atopecode.projectintegrationtest.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.atopecode.projectintegrationtest.model.TipoJuego;
 import net.atopecode.projectintegrationtest.model.Videojuego;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureMockMvc
 @SpringBootTest
 public class VideojuegoControllerIntegrationTest {
-
-    public static final String PATH_URL = "/videojuego";
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -32,7 +30,7 @@ public class VideojuegoControllerIntegrationTest {
     @Test
     public void getOne() throws Exception {
         MvcResult result = mockMvc.perform(
-                get(getUrl("/0")).
+                get(VideojuegoControllerTestUtils.getUrl("/0")).
                         accept(MimeTypeUtils.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -46,10 +44,10 @@ public class VideojuegoControllerIntegrationTest {
         final String nombre = "Street Fighter";
         final int puntuacion = 10;
 
-        Videojuego videojuego = new Videojuego(nombre, puntuacion);
+        Videojuego videojuego = new Videojuego(nombre, puntuacion, TipoJuego.PLATAFORMAS);
 
         MvcResult result =mockMvc.perform(
-                MockMvcRequestBuilders.post(getUrl(""))
+                MockMvcRequestBuilders.post(VideojuegoControllerTestUtils.getUrl(""))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(videojuego)))
@@ -63,10 +61,4 @@ public class VideojuegoControllerIntegrationTest {
         assertEquals(puntuacion, videojuego.getPuntuacion());
     }
 
-    private String getUrl(String subPath) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(PATH_URL);
-        stringBuilder.append(subPath);
-        return stringBuilder.toString();
-    }
 }

@@ -1,5 +1,6 @@
 package net.atopecode.projectintegrationtest.service;
 
+import net.atopecode.projectintegrationtest.model.TipoJuego;
 import net.atopecode.projectintegrationtest.model.Videojuego;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class VideojuegoServiceImpl implements VideojuegoService {
     }
 
     private void init() {
-        this.videojuegos.add(new Videojuego("Tetris", 10));
+        this.videojuegos.add(new Videojuego("Tetris", 10, TipoJuego.ARCADE));
     }
 
     @Override
